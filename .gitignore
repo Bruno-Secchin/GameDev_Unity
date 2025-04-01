@@ -1,0 +1,3 @@
+*.sln
+.vsconfig
+Assembly-CSharp.csproj

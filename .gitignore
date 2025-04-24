@@ -1,5 +1,6 @@
 */Library/
 */Logs/
+*/UserSettings/
 *.sln
 .vsconfig
-Assembly-CSharp.csproj
+*.csproj

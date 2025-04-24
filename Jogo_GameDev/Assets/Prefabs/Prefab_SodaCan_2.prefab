@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72c543b72f17ca441b67a6950c7e5f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.7
+  speed: 1
 --- !u!65 &5724546878144650576
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -66,8 +66,8 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.09046686, y: 0.13244063, z: 0.07843876}
-  m_Center: {x: 0.0016379952, y: 0.06797692, z: -0.002126217}
+  m_Size: {x: 0.09046686, y: 0.071139455, z: 0.07843876}
+  m_Center: {x: 0.0016379952, y: 0.037326336, z: -0.002126217}
 --- !u!1001 &5553178040353044318
 PrefabInstance:
   m_ObjectHideFlags: 0

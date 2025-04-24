@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public GameObject[ ] lixeiras;
     private Vector3 escalaPadrao = new Vector3(0.45f, 0.45f, 0.45f); // Escala normal
     private Vector3 escalaAumentada = new Vector3(0.5f, 0.5f, 0.5f); // Escala aumentada
-    public float tempoDeEspera = 0.15f; // ENTENDER O TEMPO DE ESPERA
+    private float tempoDeEspera = 0.3f; // ENTENDER O TEMPO DE ESPERA
 
 
     // Start is called before the first frame update

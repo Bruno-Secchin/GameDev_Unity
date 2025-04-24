@@ -7,13 +7,13 @@ public class PlayerController : MonoBehaviour
     public GameObject[ ] lixeiras;
     private Vector3 escalaPadrao = new Vector3(0.45f, 0.45f, 0.45f); // Escala normal
     private Vector3 escalaAumentada = new Vector3(0.5f, 0.5f, 0.5f); // Escala aumentada
-    private float tempoDeEspera = 0.3f; // ENTENDER O TEMPO DE ESPERA
-
+    private float tempoDeEspera = 0.5f;
+    private GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -43,11 +43,44 @@ public class PlayerController : MonoBehaviour
         lixeiras[indiceLixeira].transform.localScale = escalaAumentada;
         lixeiras[indiceLixeira].transform.GetChild(0).gameObject.SetActive(false);
 
-        // Espera 1 segundo
+        // Espera o tempo definido
         yield return new WaitForSeconds(tempoDeEspera);
 
         // Volta à escala normal e reativa o filho
         lixeiras[indiceLixeira].transform.localScale = escalaPadrao;
         lixeiras[indiceLixeira].transform.GetChild(0).gameObject.SetActive(true);
+        if (gameManager.GetStreak() % 10 == 0 && gameManager.GetStreak() != 0)
+        {
+            StartCoroutine(Frenesi()); // Skill que deixa as lixeiras abertas por um tempo após um streak
+        }
+    }
+
+    IEnumerator Frenesi()
+    {
+        // Espera as lixeiras retornarem a escala padrao
+        //yield return new WaitForSeconds(tempoDeEspera);
+
+        // Aumenta a escala e desativa o filho
+        lixeiras[0].transform.localScale = escalaAumentada;
+        lixeiras[0].transform.GetChild(0).gameObject.SetActive(false);
+        lixeiras[1].transform.localScale = escalaAumentada;
+        lixeiras[1].transform.GetChild(0).gameObject.SetActive(false);
+        lixeiras[2].transform.localScale = escalaAumentada;
+        lixeiras[2].transform.GetChild(0).gameObject.SetActive(false);
+        lixeiras[3].transform.localScale = escalaAumentada;
+        lixeiras[3].transform.GetChild(0).gameObject.SetActive(false);
+
+        // Espera o tempo definido
+        yield return new WaitForSeconds(6.0f);
+
+        // Volta à escala normal e reativa o filho
+        lixeiras[0].transform.localScale = escalaPadrao;
+        lixeiras[0].transform.GetChild(0).gameObject.SetActive(true);
+        lixeiras[1].transform.localScale = escalaPadrao;
+        lixeiras[1].transform.GetChild(0).gameObject.SetActive(true);
+        lixeiras[2].transform.localScale = escalaPadrao;
+        lixeiras[2].transform.GetChild(0).gameObject.SetActive(true);
+        lixeiras[3].transform.localScale = escalaPadrao;
+        lixeiras[3].transform.GetChild(0).gameObject.SetActive(true);
     }
 }

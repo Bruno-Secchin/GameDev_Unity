@@ -36,7 +36,7 @@ public class SpawnManager : MonoBehaviour
                 Instantiate(lixoPrefabs[lixoIndex], spawnpos, lixoPrefabs[lixoIndex].transform.rotation);
                 break;
             case 2:
-                spawnpos = new Vector3((float)0.647, 2, (float)-8.75);
+                spawnpos = new Vector3((float)0.597, 2, (float)-8.75);
                 Instantiate(lixoPrefabs[lixoIndex], spawnpos, lixoPrefabs[lixoIndex].transform.rotation);
                 break;
             case 3:

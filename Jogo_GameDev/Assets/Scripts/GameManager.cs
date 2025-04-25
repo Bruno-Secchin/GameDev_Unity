@@ -10,10 +10,12 @@ public class GameManager : MonoBehaviour
     
     private int score;
     private int streak;
+    private int count;
     public TextMeshProUGUI scoreText;
     public GameObject robot;
     public bool isGameActive;
     public GameObject titleScreen;
+    public GameObject streakCounter;
     public GameObject gameOverScreen;
     public GameObject[ ] lixoPrefabs;
     Vector3 spawnpos;
@@ -21,84 +23,33 @@ public class GameManager : MonoBehaviour
     public Button start_button;
     public Button restart_button;
     private float spawnInterval = 1.5f;
+    private AudioSource playerAudio;
+    public AudioClip craftSound;
+    public AudioClip startSound;
+    public AudioClip overSound;
     // Start is called before the first frame update
     void Start()
     {
+        playerAudio = GetComponent<AudioSource>();
         start_button.onClick.AddListener(StartGame);
         restart_button.onClick.AddListener(RestartGame);
         score = 0;
         streak = 0;
+        count = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (score == 8)
-        {
-            robot.transform.Find("part1").gameObject.SetActive(true);
-        }
-        else if (score == 10)
-        {
-            robot.transform.Find("part2").gameObject.SetActive(true);
-        }
-        else if (score == 12)
-        {
-            robot.transform.Find("part3").gameObject.SetActive(true);
-        }
-        else if (score == 14)
-        {
-            robot.transform.Find("part4").gameObject.SetActive(true);
-        }
-        else if (score == 16)
-        {
-            robot.transform.Find("part5").gameObject.SetActive(true);
-        }
-        else if (score == 19)
-        {
-            robot.transform.Find("part6").gameObject.SetActive(true);
-        }
-        else if (score == 22)
-        {
-            robot.transform.Find("part7").gameObject.SetActive(true);
-        }
-        else if (score == 28)
-        {
-            robot.transform.Find("part8").gameObject.SetActive(true);
-        }
-        else if (score == 31)
-        {
-            robot.transform.Find("part9").gameObject.SetActive(true);
-        }
-        else if (score == 34)
-        {
-            robot.transform.Find("part10").gameObject.SetActive(true);
-        }
-        else if (score == 37)
-        {
-            robot.transform.Find("part11").gameObject.SetActive(true);
-        }
-        else if (score == 41)
-        {
-            robot.transform.Find("part12").gameObject.SetActive(true);
-        }
-        else if (score == 45)
-        {
-            robot.transform.Find("part13").gameObject.SetActive(true);
-        }
-        else if (score == 50)
-        {
-            robot.transform.Find("part14").gameObject.SetActive(true);
-            GameOver();
-        }
 
     }
 
     void StartGame(){
         titleScreen.gameObject.SetActive(false);
-        restart_button.gameObject.SetActive(true);
+        streakCounter.gameObject.SetActive(true);
         isGameActive = true;
         StartCoroutine(SpawnRandom());
-        //InvokeRepeating("SpawnRandom", startDelay, spawnInterval);
+        playerAudio.PlayOneShot(startSound, 1.0f);
     }
 
     public void RestartGame()
@@ -109,7 +60,9 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         gameOverScreen.gameObject.SetActive(true);
+        streakCounter.gameObject.SetActive(false);
         isGameActive = false;
+        playerAudio.PlayOneShot(overSound, 1.0f);
     }
 
     IEnumerator SpawnRandom()
@@ -128,7 +81,7 @@ public class GameManager : MonoBehaviour
                     Instantiate(lixoPrefabs[lixoIndex], spawnpos, lixoPrefabs[lixoIndex].transform.rotation);
                     break;
                 case 2:
-                    spawnpos = new Vector3((float)0.597, 2, (float)-8.75);
+                    spawnpos = new Vector3((float)0.627, 2, (float)-8.75);
                     Instantiate(lixoPrefabs[lixoIndex], spawnpos, lixoPrefabs[lixoIndex].transform.rotation);
                     break;
                 case 3:
@@ -148,7 +101,16 @@ public class GameManager : MonoBehaviour
             score += scoreToAdd;
             streak += scoreToAdd;
         }
-        scoreText.text = "Streak: " + streak;
+        scoreText.text = "Streak:" + streak;
+
+        if (score != 0 && score % 4 == 0){
+            count += 1;
+            robot.transform.Find("part" + count).gameObject.SetActive(true);
+            playerAudio.PlayOneShot(craftSound, 1.0f);
+            if (score == 56){
+                GameOver();
+            }
+        }
     }
 
     public int GetStreak()

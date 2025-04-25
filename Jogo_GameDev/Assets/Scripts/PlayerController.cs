@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 escalaAumentada = new Vector3(0.5f, 0.5f, 0.5f); // Escala aumentada
     private float tempoDeEspera = 0.5f;
     private GameManager gameManager;
+    public GameObject frenesiText;
 
     // Start is called before the first frame update
     void Start()
@@ -19,22 +22,25 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            StartCoroutine(AtivarEfeito(0)); // Índice 0 = Lixeira da tecla D
+        if(gameManager.isGameActive){
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                StartCoroutine(AtivarEfeito(0)); // Índice 0 = Lixeira da tecla D
+            }
+            else if (Input.GetKeyDown(KeyCode.F))
+            {
+                StartCoroutine(AtivarEfeito(1)); // Índice 1 = Lixeira da tecla F
+            }
+            else if (Input.GetKeyDown(KeyCode.J))
+            {
+                StartCoroutine(AtivarEfeito(2)); // Índice 2 = Lixeira da tecla J
+            }
+            else if (Input.GetKeyDown(KeyCode.K))
+            {
+                StartCoroutine(AtivarEfeito(3)); // Índice 3 = Lixeira da tecla K
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.F))
-        {
-            StartCoroutine(AtivarEfeito(1)); // Índice 1 = Lixeira da tecla F
-        }
-        else if (Input.GetKeyDown(KeyCode.J))
-        {
-            StartCoroutine(AtivarEfeito(2)); // Índice 2 = Lixeira da tecla J
-        }
-        else if (Input.GetKeyDown(KeyCode.K))
-        {
-            StartCoroutine(AtivarEfeito(3)); // Índice 3 = Lixeira da tecla K
-        }
+        
     }
 
     IEnumerator AtivarEfeito(int indiceLixeira)
@@ -49,7 +55,7 @@ public class PlayerController : MonoBehaviour
         // Volta à escala normal e reativa o filho
         lixeiras[indiceLixeira].transform.localScale = escalaPadrao;
         lixeiras[indiceLixeira].transform.GetChild(0).gameObject.SetActive(true);
-        if (gameManager.GetStreak() % 10 == 0 && gameManager.GetStreak() != 0)
+        if (gameManager.isGameActive && gameManager.GetStreak() % 10 == 0 && gameManager.GetStreak() != 0)
         {
             StartCoroutine(Frenesi()); // Skill que deixa as lixeiras abertas por um tempo após um streak
         }
@@ -58,7 +64,8 @@ public class PlayerController : MonoBehaviour
     IEnumerator Frenesi()
     {
         // Espera as lixeiras retornarem a escala padrao
-        //yield return new WaitForSeconds(tempoDeEspera);
+        
+        frenesiText.gameObject.SetActive(true);
 
         // Aumenta a escala e desativa o filho
         lixeiras[0].transform.localScale = escalaAumentada;
@@ -82,5 +89,6 @@ public class PlayerController : MonoBehaviour
         lixeiras[2].transform.GetChild(0).gameObject.SetActive(true);
         lixeiras[3].transform.localScale = escalaPadrao;
         lixeiras[3].transform.GetChild(0).gameObject.SetActive(true);
+        frenesiText.gameObject.SetActive(false);
     }
 }

@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1321369353283123362}
   - component: {fileID: 6468268223711282940}
+  - component: {fileID: -7839395352546023882}
   - component: {fileID: -6587285434411355944}
+  - component: {fileID: -2414026929338721695}
   m_Layer: 0
   m_Name: Prefab_WaterBottle_S_Crushed
   m_TagString: Untagged
@@ -26,14 +28,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5483362415333166954}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.2650428, w: 0.9642367}
-  m_LocalPosition: {x: 0.54541457, y: 0.64743626, z: -8.840985}
+  m_LocalRotation: {x: 0.099036954, y: -0.030855715, z: -0.26398805, w: 0.9589317}
+  m_LocalPosition: {x: 0.54658955, y: 0.6494121, z: -8.863492}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7918529903556551067}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30.739}
+  m_LocalEulerAnglesHint: {x: 10, y: -6.499, z: -31.353}
 --- !u!114 &6468268223711282940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,6 +49,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+--- !u!114 &-7839395352546023882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5483362415333166954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cb0f1af94b1c3942be1fb36c1ea3447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &-6587285434411355944
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67,7 +81,34 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.06548259, y: 0.06899843, z: 0.072440155}
-  m_Center: {x: 0.019760655, y: 0.042422365, z: 0.0027851053}
+  m_Center: {x: 0.02, y: 0.05, z: 0.0027851053}
+--- !u!54 &-2414026929338721695
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5483362415333166954}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 10
+  m_CollisionDetection: 0
 --- !u!1001 &7669345955656140400
 PrefabInstance:
   m_ObjectHideFlags: 0

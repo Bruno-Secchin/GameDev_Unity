@@ -12,11 +12,15 @@ public class PlayerController : MonoBehaviour
     private float tempoDeEspera = 0.5f;
     private GameManager gameManager;
     public GameObject frenesiText;
+    private AudioSource playerAudio;
+    public AudioClip binSound;
+    public AudioClip frenesiSound;
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.Find("Manager").GetComponent<GameManager>();
+        playerAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -26,18 +30,22 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D))
             {
                 StartCoroutine(AtivarEfeito(0)); // Índice 0 = Lixeira da tecla D
+                playerAudio.PlayOneShot(binSound, 1.0f);
             }
             else if (Input.GetKeyDown(KeyCode.F))
             {
                 StartCoroutine(AtivarEfeito(1)); // Índice 1 = Lixeira da tecla F
+                playerAudio.PlayOneShot(binSound, 1.0f);
             }
             else if (Input.GetKeyDown(KeyCode.J))
             {
                 StartCoroutine(AtivarEfeito(2)); // Índice 2 = Lixeira da tecla J
+                playerAudio.PlayOneShot(binSound, 1.0f);
             }
             else if (Input.GetKeyDown(KeyCode.K))
             {
                 StartCoroutine(AtivarEfeito(3)); // Índice 3 = Lixeira da tecla K
+                playerAudio.PlayOneShot(binSound, 1.0f);
             }
         }
         
@@ -58,6 +66,7 @@ public class PlayerController : MonoBehaviour
         if (gameManager.isGameActive && gameManager.GetStreak() % 10 == 0 && gameManager.GetStreak() != 0)
         {
             StartCoroutine(Frenesi()); // Skill que deixa as lixeiras abertas por um tempo após um streak
+            playerAudio.PlayOneShot(frenesiSound, 1.0f);
         }
     }
 

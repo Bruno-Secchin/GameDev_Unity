@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class L2PlayerController : MonoBehaviour
 {
+    private L2GameManager gameManager;
     private Rigidbody playerRb;
     private Animator playerAnim;
     private AudioSource playerAudio;
     public AudioClip jumpSound;
+    public AudioClip crounchSound;
     public AudioClip crashSound;
     public float jumpForce;
     public float gravityModifier;
@@ -16,6 +18,7 @@ public class L2PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<L2GameManager>();
         playerRb = GetComponent<Rigidbody>();
         playerAnim = GetComponent<Animator>();
         Physics.gravity *= gravityModifier;
@@ -25,12 +28,18 @@ public class L2PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && !gameOver)
-        {
+        if (gameManager.isGameActive){
+            playerAnim.SetBool("Run_b", true);
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && gameManager.isGameActive){
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isOnGround = false;
-            // playerAnim.SetTrigger("Jump_trig");
+            playerAnim.SetTrigger("Jump_trig");
             playerAudio.PlayOneShot(jumpSound, 1.0f);
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow) && isOnGround && gameManager.isGameActive){
+            playerAnim.SetTrigger("Crounch_trig");
+            playerAudio.PlayOneShot(crounchSound, 1.0f);
         }
 
     }
@@ -39,10 +48,10 @@ public class L2PlayerController : MonoBehaviour
             isOnGround = true;
         }
         else if (collision.gameObject.CompareTag("Obstacle")){
-            gameOver = true;
-            Debug.Log("Game Over!");
             playerAnim.SetBool("Death_b", true);
-            playerAnim.SetInteger("DeathType_int", 1);
+            gameManager.GameOver();
+            Debug.Log("Game Over!");
+            // playerAnim.SetInteger("DeathType_int", 1);
             playerAudio.PlayOneShot(crashSound, 1.0f);
         }
     }

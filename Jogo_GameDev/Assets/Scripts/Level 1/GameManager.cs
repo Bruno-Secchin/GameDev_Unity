@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private GameManager gameManager;
     public Button start_button;
     public Button restart_button;
+    public Button next_button;
     private float spawnInterval = 1.5f;
     private AudioSource playerAudio;
     public AudioClip craftSound;
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
         playerAudio = GetComponent<AudioSource>();
         start_button.onClick.AddListener(StartGame);
         restart_button.onClick.AddListener(RestartGame);
+        next_button.onClick.AddListener(NextGame);
         score = 0;
         streak = 0;
         count = 0;
@@ -44,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void StartGame(){
+    public void StartGame(){
         titleScreen.gameObject.SetActive(false);
         streakCounter.gameObject.SetActive(true);
         isGameActive = true;
@@ -63,6 +65,10 @@ public class GameManager : MonoBehaviour
         streakCounter.gameObject.SetActive(false);
         isGameActive = false;
         playerAudio.PlayOneShot(overSound, 1.0f);
+    }
+    public void NextGame()
+    {
+        SceneManager.LoadScene("LevelTwo");
     }
 
     IEnumerator SpawnRandom()

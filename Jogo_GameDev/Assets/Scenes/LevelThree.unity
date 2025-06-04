@@ -387,6 +387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 360321705}
   - component: {fileID: 360321704}
+  - component: {fileID: 360321706}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -401,7 +402,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 360321703}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb6ee28e0572a2541aefaedb75c3af79, type: 3}
   m_Name: 
@@ -430,6 +431,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &360321706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360321703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb513333b6ed728499938ec0e70275bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGameActive: 0
+  titleScreen: {fileID: 1939294955}
+  gameOverScreen: {fileID: 1663602624}
+  endLevelScreen: {fileID: 1707908339}
+  prevButton: {fileID: 470474873}
+  startButton: {fileID: 318460028}
+  restartButton: {fileID: 988003831}
+  restartGOButton: {fileID: 888996597}
+  nextButton: {fileID: 366513041}
+  cameraMoveSpeed: 5
 --- !u!1 &366513039
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,7 +764,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 455998636}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e2064f7edf7c60478d8c943870c673f, type: 3}
   m_Name: 
@@ -6236,6 +6259,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1971027851}
+    - targetCorrespondingSourceObject: {fileID: 7754525081701532630, guid: 34a42967bd1c0914da19f556605d7eea,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1971027856}
   m_SourcePrefab: {fileID: 100100000, guid: 34a42967bd1c0914da19f556605d7eea, type: 3}
 --- !u!1 &882507036
 GameObject:
@@ -7319,6 +7346,7 @@ GameObject:
   - component: {fileID: 1253036039}
   - component: {fileID: 1253036038}
   - component: {fileID: 1253036041}
+  - component: {fileID: 1253036042}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -7444,6 +7472,22 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1253036042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253036037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c6986beae294b409dca7ee9e8f1f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1971027855}
+  offsetPosition: {x: 0, y: 6.89, z: -5}
+  cameraRotation: {x: 32, y: 0, z: 0}
+  smoothSpeed: 5
 --- !u!1 &1419434627
 GameObject:
   m_ObjectHideFlags: 0
@@ -8121,7 +8165,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1971027844}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 500a79c6a9cfdcd42909e93c07c94d27, type: 3}
   m_Name: 
@@ -8229,6 +8273,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!4 &1971027855 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6977848057737845100, guid: 34a42967bd1c0914da19f556605d7eea,
+    type: 3}
+  m_PrefabInstance: {fileID: 860112047}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1971027856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971027844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87940e761f1396f4a812cb99476fce6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpSound: {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
+  deathSound: {fileID: 8300000, guid: 4b4dd7245f6104c8c8eb07ccf6b386ed, type: 3}
+  jumpForce: 1200
+  gravityModifier: 5
+  speed: 10
+  xRange: 5
+  zRangeForward: 10
+  zRangeBackward: -5
+  isMoving: 0
+  isOnGround: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

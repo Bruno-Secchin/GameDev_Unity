@@ -51,12 +51,12 @@ public class L2PlayerController : MonoBehaviour
             playerAnim.SetBool("Run_b", true);
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && isOnGround && gameManager.isGameActive && !isCrouching)
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) && isOnGround && gameManager.isGameActive && !isCrouching)
         {
             playerAnim.SetTrigger("Crouch_trig");
             playerAudio.PlayOneShot(crouchSound, 1.0f);
         }
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && gameManager.isGameActive && !isCrouching)
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) && isOnGround && gameManager.isGameActive && !isCrouching)
         {
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isOnGround = false;
@@ -72,8 +72,11 @@ public class L2PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(xRange, transform.position.y, transform.position.z);
         }
-        horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);
+        if (gameManager.isGameActive)
+        {
+            horizontalInput = Input.GetAxis("Horizontal");
+            transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);
+        }
 
     }
     private void OnTriggerEnter(Collider other) {

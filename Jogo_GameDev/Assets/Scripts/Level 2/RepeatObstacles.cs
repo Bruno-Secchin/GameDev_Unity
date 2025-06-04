@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RepeatTerrain : MonoBehaviour
+public class RepeatObstacles : MonoBehaviour
 {
-    public Vector3 startPos;
-    public float repeatWidth;
+    private Vector3 startPos;
+    private RepeatTerrain terrain;
     // Start is called before the first frame update
     void Start()
     {
         startPos = transform.position;
-        repeatWidth = GetComponent<BoxCollider>().size.z / 2;
+        terrain = GameObject.Find("Terrain").GetComponent<RepeatTerrain>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.z < startPos.z - repeatWidth){
+        if (terrain.transform.position.z < terrain.startPos.z - terrain.repeatWidth){
             transform.position = startPos;
         }
     }

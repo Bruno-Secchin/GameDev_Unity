@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public GameObject streakCounter;
     public GameObject gameOverScreen;
     public GameObject[ ] lixoPrefabs;
-    Vector3 spawnpos;
+    private Vector3 spawnpos;
     private GameManager gameManager;
     public Button start_button;
     public Button restart_button;

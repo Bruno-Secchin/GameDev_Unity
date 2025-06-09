@@ -6,6 +6,7 @@ public class MoveSouth : MonoBehaviour
 {
     public float speed;
     private L2GameManager gameManager;
+    public float southBound = -10f;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,9 @@ public class MoveSouth : MonoBehaviour
         if (gameManager.isGameActive == true)
         {
             transform.Translate(Vector3.back * Time.deltaTime * speed);  
+        }
+        if (transform.position.z < southBound && gameObject.CompareTag("Obstacle")){
+            Destroy(gameObject);
         }
     }
 }

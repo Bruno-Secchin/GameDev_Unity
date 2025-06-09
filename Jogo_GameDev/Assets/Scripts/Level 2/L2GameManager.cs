@@ -20,9 +20,15 @@ public class L2GameManager : MonoBehaviour
     private GameObject mainCamera;
     private Vector3 cameraPosition;
     private bool moveCamera = false;
+    private Vector3 spawnposEco;
+    private Vector3 spawnposPipe;
+    private float spawnInterval = 1.5f;
+    public GameObject[ ] obstaclePrefabs;
     // Start is called before the first frame update
     void Start()
     {
+        spawnposEco = new Vector3(0f, 4.1f, 75f);
+        spawnposPipe = new Vector3(0f, 7.25f, 75f);
         prev_button.onClick.AddListener(PrevGame);
         start_button.onClick.AddListener(StartGame);
         restart_button.onClick.AddListener(RestartGame);
@@ -49,6 +55,7 @@ public class L2GameManager : MonoBehaviour
     {
         titleScreen.gameObject.SetActive(false);
         isGameActive = true;
+        StartCoroutine(SpawnRandom());
     }
     public IEnumerator GameOver()
     {
@@ -75,5 +82,34 @@ public class L2GameManager : MonoBehaviour
     public void PrevGame()
     {
         SceneManager.LoadScene("LevelOne");
+    }
+
+    IEnumerator SpawnRandom()
+    {
+        while(isGameActive){
+            yield return new WaitForSeconds(spawnInterval);
+            // Define uma posicao aleatoria de Spawn e instancia o Spawn:
+            int obstacleIndex = Random.Range(0, obstaclePrefabs.Length);
+            switch(obstacleIndex){
+                case 0:
+                    Instantiate(obstaclePrefabs[obstacleIndex], spawnposEco, obstaclePrefabs[obstacleIndex].transform.rotation);
+                    break;
+                case 1:
+                    Instantiate(obstaclePrefabs[obstacleIndex], spawnposEco, obstaclePrefabs[obstacleIndex].transform.rotation);
+                    break;
+                case 2:
+                    Instantiate(obstaclePrefabs[obstacleIndex], spawnposEco, obstaclePrefabs[obstacleIndex].transform.rotation);
+                    break;
+                case 3:
+                    Instantiate(obstaclePrefabs[obstacleIndex], spawnposEco, obstaclePrefabs[obstacleIndex].transform.rotation);
+                    break;
+                case 4:
+                    Instantiate(obstaclePrefabs[obstacleIndex], spawnposPipe, obstaclePrefabs[obstacleIndex].transform.rotation);
+                    break;
+                case 5:
+                    Instantiate(obstaclePrefabs[obstacleIndex], spawnposPipe, obstaclePrefabs[obstacleIndex].transform.rotation);
+                    break;
+            }
+        }
     }
 }

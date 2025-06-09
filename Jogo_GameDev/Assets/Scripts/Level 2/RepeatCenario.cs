@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RepeatObstacles : MonoBehaviour
+public class RepeatCenario : MonoBehaviour
 {
     private Vector3 startPos;
     private RepeatTerrain terrain;

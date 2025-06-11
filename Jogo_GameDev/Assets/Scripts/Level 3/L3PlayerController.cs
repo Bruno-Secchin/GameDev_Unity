@@ -16,10 +16,6 @@ public class L3PlayerController : MonoBehaviour
     public float jumpForce = 10f;
     public float gravityModifier = 1.5f;
     public float speed = 5f;
-    public float xRange = 5.0f;
-    public float zRangeForward = 10.0f;
-    public float zRangeBackward = -5.0f;
-    public bool isMoving = false;
 
     [Header("Status")]
     public bool isOnGround = true;
@@ -37,10 +33,8 @@ public class L3PlayerController : MonoBehaviour
     {
         if (!L3GameManager.Instance.isGameActive) return;
 
-
         HandleMovement();
         HandleJump();
-        ConstrainPosition();
     }
 
     private void HandleMovement()
@@ -48,15 +42,16 @@ public class L3PlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(horizontalInput, 0, verticalInput).normalized;
-        transform.Translate(movement * speed * Time.deltaTime, Space.World);
-
-        isMoving = movement.magnitude > 0.1f;
-
+        Vector3 movement = new Vector3(horizontalInput, 0, verticalInput);
+        bool isMoving = movement.magnitude > 0.1f;
+        
         playerAnim.SetBool("Run_b", isMoving);
 
-        if (movement.magnitude > 0.1f)
+        if (isMoving)
         {
+            movement.Normalize();
+            transform.Translate(movement * speed * Time.deltaTime, Space.World);
+
             Quaternion targetRotation = Quaternion.LookRotation(movement);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
         }
@@ -71,13 +66,6 @@ public class L3PlayerController : MonoBehaviour
             playerAnim.SetTrigger("Jump_trig");
             playerAudio.PlayOneShot(jumpSound, 1.0f);
         }
-    }
-
-    private void ConstrainPosition()
-    {
-        float clampedX = Mathf.Clamp(transform.position.x, -xRange, xRange);
-        float clampedZ = Mathf.Clamp(transform.position.z, zRangeBackward, zRangeForward);
-        transform.position = new Vector3(clampedX, transform.position.y, clampedZ);
     }
 
     private void OnTriggerEnter(Collider other)

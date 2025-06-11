@@ -11,6 +11,7 @@ public class L2GameManager : MonoBehaviour
     public GameObject titleScreen;
     public GameObject gameOverScreen;
     public GameObject endLevelScreen;
+    public GameObject timerText;
     private L2GameManager gameManager;
     public Button prev_button;
     public Button start_button;
@@ -55,6 +56,7 @@ public class L2GameManager : MonoBehaviour
     {
         titleScreen.gameObject.SetActive(false);
         isGameActive = true;
+        timerText.gameObject.SetActive(true);
         StartCoroutine(SpawnRandom());
     }
     public IEnumerator GameOver()

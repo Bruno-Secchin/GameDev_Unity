@@ -8,6 +8,7 @@ public class L2PlayerController : MonoBehaviour
     private Rigidbody playerRb;
     private Animator playerAnim;
     private AudioSource playerAudio;
+    public TimerController timerController;
     public AudioClip jumpSound;
     public AudioClip crouchSound;
     public AudioClip deathSound;
@@ -46,24 +47,6 @@ public class L2PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameManager.isGameActive)
-        {
-            playerAnim.SetBool("Run_b", true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) && isOnGround && gameManager.isGameActive && !isCrouching)
-        {
-            playerAnim.SetTrigger("Crouch_trig");
-            playerAudio.PlayOneShot(crouchSound, 1.0f);
-        }
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) && isOnGround && gameManager.isGameActive && !isCrouching)
-        {
-            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isOnGround = false;
-            playerAnim.SetTrigger("Jump_trig");
-            playerAudio.PlayOneShot(jumpSound, 1.0f);
-        }
-
         if (transform.position.x < -xRange)
         {
             transform.position = new Vector3(-xRange, transform.position.y, transform.position.z);
@@ -74,8 +57,27 @@ public class L2PlayerController : MonoBehaviour
         }
         if (gameManager.isGameActive)
         {
+            playerAnim.SetBool("Run_b", true);
             horizontalInput = Input.GetAxis("Horizontal");
             transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);
+        }
+
+        if (!timerController.isCountingDown)
+        {
+            playerAnim.SetBool("Run_b", false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) && isOnGround && gameManager.isGameActive && !isCrouching)
+            {
+                playerAnim.SetTrigger("Crouch_trig");
+                playerAudio.PlayOneShot(crouchSound, 1.0f);
+            }
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) && isOnGround && gameManager.isGameActive && !isCrouching)
+        {
+            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isOnGround = false;
+            playerAnim.SetTrigger("Jump_trig");
+            playerAudio.PlayOneShot(jumpSound, 1.0f);
         }
 
     }

@@ -9,10 +9,12 @@ public class EnemyCollisionHandler : MonoBehaviour
     [Header("Configurações")]
     public bool destroyOnCollision = true;
     public float spawnOffset = 0.5f;
+    public int scoreValue = 100; // Pontos concedidos ao derrotar este inimigo
 
     [Header("Efeitos")]
     public ParticleSystem collisionEffect;
     public AudioClip collisionSound;
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -20,6 +22,7 @@ public class EnemyCollisionHandler : MonoBehaviour
         if (collision.gameObject == playerObject)
         {
             HandleEnemyTransformation();
+            AddScoreToPlayer();
         }
     }
 
@@ -29,6 +32,7 @@ public class EnemyCollisionHandler : MonoBehaviour
         if (other.gameObject == playerObject)
         {
             HandleEnemyTransformation();
+            AddScoreToPlayer();
         }
     }
 
@@ -65,6 +69,18 @@ public class EnemyCollisionHandler : MonoBehaviour
         if (audioSource != null && collisionSound != null)
         {
             audioSource.PlayOneShot(collisionSound);
+        }
+    }
+
+    private void AddScoreToPlayer()
+    {
+        if (L3GameManager.Instance != null)
+        {
+            L3GameManager.Instance.AddScore(scoreValue);
+        }
+        else
+        {
+            Debug.LogWarning("GameManager não encontrado para adicionar pontuação!");
         }
     }
 

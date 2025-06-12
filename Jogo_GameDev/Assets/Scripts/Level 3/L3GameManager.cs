@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -7,25 +8,30 @@ public class L3GameManager : MonoBehaviour
 {
     [Header("Game State")]
     public bool isGameActive;
-    
+
     [Header("UI Screens")]
     public GameObject titleScreen;
     public GameObject gameOverScreen;
     public GameObject endLevelScreen;
-    
+
     [Header("Buttons")]
     public Button prevButton;
     public Button startButton;
     public Button restartButton;
     public Button restartGOButton;
     public Button nextButton;
-    
+
     [Header("Camera Settings")]
     public float cameraMoveSpeed = 5.0f;
     private GameObject mainCamera;
     private Vector3 cameraPosition;
     private bool moveCamera = false;
-    
+
+    [Header("Score System")]
+    public int currentScore = 0;
+    public TextMeshProUGUI scoreText; // Referência ao texto UI que mostra a pontuação
+
+
     // Singleton pattern para fácil acesso
     private static L3GameManager _instance;
     public static L3GameManager Instance => _instance;
@@ -48,6 +54,7 @@ public class L3GameManager : MonoBehaviour
         InitializeButtons();
         FindCamera();
         SetInitialGameState();
+        UpdateScoreUI(); // Inicializa a UI de pontuação
     }
 
     private void InitializeButtons()
@@ -85,10 +92,10 @@ public class L3GameManager : MonoBehaviour
     private void HandleCameraMovement()
     {
         if (!moveCamera) return;
-        
+
         mainCamera.transform.position = Vector3.MoveTowards(
-            mainCamera.transform.position, 
-            cameraPosition, 
+            mainCamera.transform.position,
+            cameraPosition,
             cameraMoveSpeed * Time.deltaTime
         );
 
@@ -108,7 +115,7 @@ public class L3GameManager : MonoBehaviour
     public IEnumerator GameOver()
     {
         isGameActive = false;
-        
+
         // Configura movimento da câmera
         cameraPosition = new Vector3(
             mainCamera.transform.position.x,
@@ -116,7 +123,7 @@ public class L3GameManager : MonoBehaviour
             -10.5f
         );
         moveCamera = true;
-        
+
         yield return new WaitForSeconds(1.0f);
         gameOverScreen.SetActive(true);
     }
@@ -162,5 +169,25 @@ public class L3GameManager : MonoBehaviour
             // Volta para o menu principal ou última cena
             SceneManager.LoadScene(0);
         }
+    }
+    
+    public void AddScore(int points)
+    {
+        currentScore += points;
+        UpdateScoreUI();
+    }
+
+    private void UpdateScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + currentScore.ToString();
+        }
+    }
+
+    public void ResetScore()
+    {
+        currentScore = 0;
+        UpdateScoreUI();
     }
 }

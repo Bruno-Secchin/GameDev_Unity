@@ -9906,6 +9906,8 @@ GameObject:
   - component: {fileID: 1905401176132809794}
   - component: {fileID: 6983154337702836398}
   - component: {fileID: 549506356378400057}
+  - component: {fileID: 8942970616063410722}
+  - component: {fileID: 875680199797469939}
   m_Layer: 0
   m_Name: AngryLog
   m_TagString: Untagged
@@ -9992,6 +9994,49 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.7242212, y: 1, z: 1.8636513}
   m_Center: {x: 0.018306218, y: 0, z: -0.10586386}
+--- !u!195 &8942970616063410722
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4800839809881058091}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 2
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &875680199797469939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4800839809881058091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da9d4c3ee3a069e469998f54fd328451, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  detectionRange: 10
+  stoppingDistance: 2
+  patrolRadius: 15
+  patrolCooldown: 3
+  obstructionLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  useLineOfSight: 1
 --- !u!1 &5464489719840728496
 GameObject:
   m_ObjectHideFlags: 0

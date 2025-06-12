@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5309092305690658444}
   - component: {fileID: 7946979891170472518}
   - component: {fileID: -3059884486926274198}
+  - component: {fileID: -1847867223352936995}
   m_Layer: 0
   m_Name: SM_AFS_Log02_LowEndPC
   m_TagString: Untagged
@@ -105,3 +106,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.18964607, y: 0.31187916, z: 0.21583119}
   m_Center: {x: 0.0014739707, y: 0.15403867, z: -0.0042327084}
+--- !u!114 &-1847867223352936995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8451466955689087891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c7f6484c811c2549b7d42c46aea801a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 100

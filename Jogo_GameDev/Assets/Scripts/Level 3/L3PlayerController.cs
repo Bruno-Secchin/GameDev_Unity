@@ -9,16 +9,11 @@ public class L3PlayerController : MonoBehaviour
     private AudioSource playerAudio;
 
     [Header("Audio Clips")]
-    public AudioClip jumpSound;
     public AudioClip deathSound;
 
     [Header("Movement Settings")]
-    public float jumpForce = 10f;
     public float gravityModifier = 1.5f;
     public float speed = 5f;
-
-    [Header("Status")]
-    public bool isOnGround = true;
 
     private void Start()
     {
@@ -33,8 +28,24 @@ public class L3PlayerController : MonoBehaviour
     {
         if (!L3GameManager.Instance.isGameActive) return;
 
+        if (transform.position.z < -15.0f)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, -15.0f);
+        }
+        if (transform.position.z > 32.5f)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 32.5f);
+        }
+        if (transform.position.x < -11.0f)
+        {
+            transform.position = new Vector3(-11.0f, transform.position.y, transform.position.z);
+        }
+        if (transform.position.x > 34.0f)
+        {
+            transform.position = new Vector3(34.0f, transform.position.y, transform.position.z);
+        }
+
         HandleMovement();
-        HandleJump();
     }
 
     private void HandleMovement()
@@ -44,7 +55,7 @@ public class L3PlayerController : MonoBehaviour
 
         Vector3 movement = new Vector3(horizontalInput, 0, verticalInput);
         bool isMoving = movement.magnitude > 0.1f;
-        
+
         playerAnim.SetBool("Run_b", isMoving);
 
         if (isMoving)
@@ -56,35 +67,13 @@ public class L3PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
         }
     }
-
-    private void HandleJump()
+    public void Death()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
-        {
-            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isOnGround = false;
-            playerAnim.SetTrigger("Jump_trig");
-            playerAudio.PlayOneShot(jumpSound, 1.0f);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Ground"))
-        {
-            isOnGround = true;
-        }
-        else if (other.CompareTag("Obstacle"))
-        {
-            HandleObstacleCollision();
-        }
-    }
-
-    private void HandleObstacleCollision()
-    {
-        playerAnim.SetBool("Death_b", true);
-        playerAnim.SetInteger("DeathType_int", 1);
         playerAudio.PlayOneShot(deathSound, 1.0f);
-        StartCoroutine(L3GameManager.Instance.GameOver());
+        playerAnim.SetBool("Death_b", true);
+    }
+    public void Stop()
+    {
+        playerAnim.SetBool("Run_b", false);
     }
 }

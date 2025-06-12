@@ -9973,7 +9973,7 @@ MonoBehaviour:
   spawnOffset: 0.5
   scoreValue: 100
   collisionEffect: {fileID: 0}
-  collisionSound: {fileID: 0}
+  collisionSound: {fileID: 8300000, guid: 81652031b64c342cc8dbc59c138d77c5, type: 3}
 --- !u!65 &549506356378400057
 BoxCollider:
   m_ObjectHideFlags: 0

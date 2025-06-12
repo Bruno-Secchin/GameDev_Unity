@@ -181,7 +181,7 @@ public class L3GameManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = "Score: " + currentScore.ToString();
+            scoreText.text = "Score:\n" + currentScore.ToString();
         }
     }
 

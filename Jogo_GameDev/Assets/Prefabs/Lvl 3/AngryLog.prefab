@@ -9971,6 +9971,7 @@ MonoBehaviour:
     type: 3}
   destroyOnCollision: 1
   spawnOffset: 0.5
+  scoreValue: 100
   collisionEffect: {fileID: 0}
   collisionSound: {fileID: 0}
 --- !u!65 &549506356378400057
@@ -9992,8 +9993,8 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.7242212, y: 1, z: 1.8636513}
-  m_Center: {x: 0.018306218, y: 0, z: -0.10586386}
+  m_Size: {x: 2.7242212, y: 2.017925, z: 1.8636512}
+  m_Center: {x: 0.018306267, y: -0.26176754, z: -0.105863854}
 --- !u!195 &8942970616063410722
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -10013,7 +10014,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 1.3
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &875680199797469939
@@ -10029,14 +10030,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  safeDistance: 10
+  fleeSpeed: 5
+  normalSpeed: 3.5
   detectionRange: 10
-  stoppingDistance: 2
-  patrolRadius: 15
-  patrolCooldown: 3
-  obstructionLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  useLineOfSight: 1
 --- !u!1 &5464489719840728496
 GameObject:
   m_ObjectHideFlags: 0

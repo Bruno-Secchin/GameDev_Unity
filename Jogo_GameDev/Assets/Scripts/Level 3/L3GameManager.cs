@@ -31,6 +31,14 @@ public class L3GameManager : MonoBehaviour
     public int currentScore = 0;
     public TextMeshProUGUI scoreText; // Referência ao texto UI que mostra a pontuação
 
+    [Header("Timer Settings")]
+    public float gameTime = 15f; // 15 segundos
+    public TextMeshProUGUI timerText; // Referência ao texto UI do timer
+    private Coroutine timerCoroutine;
+
+    [Header("Enemy Settings")]
+    public string enemyTag = "Enemy"; // Tag dos inimigos
+
 
     // Singleton pattern para fácil acesso
     private static L3GameManager _instance;
@@ -55,6 +63,7 @@ public class L3GameManager : MonoBehaviour
         FindCamera();
         SetInitialGameState();
         UpdateScoreUI(); // Inicializa a UI de pontuação
+        UpdateTimerUI(); // Inicializa o timer
     }
 
     private void InitializeButtons()
@@ -109,7 +118,30 @@ public class L3GameManager : MonoBehaviour
     {
         titleScreen.SetActive(false);
         isGameActive = true;
-        // Adicione qualquer inicialização adicional do jogo aqui
+        timerCoroutine = StartCoroutine(GameTimer());
+    }
+
+    private IEnumerator GameTimer()
+    {
+        while (gameTime > 0 && isGameActive)
+        {
+            yield return new WaitForSeconds(1f);
+            gameTime--;
+            UpdateTimerUI();
+        }
+
+        if (isGameActive && gameTime <= 0)
+        {
+            StartCoroutine(GameOver());
+        }
+    }
+
+    private void UpdateTimerUI()
+    {
+        if (timerText != null)
+        {
+            timerText.text = "Timer:\n" + gameTime.ToString("0");
+        }
     }
 
     public IEnumerator GameOver()
@@ -136,6 +168,9 @@ public class L3GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        // Reseta o timer ao reiniciar
+        gameTime = 15f;
+        UpdateTimerUI();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

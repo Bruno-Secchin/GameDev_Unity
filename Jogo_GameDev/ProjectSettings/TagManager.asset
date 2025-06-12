@@ -7,6 +7,8 @@ TagManager:
   - Destroyer
   - Ground
   - Obstacle
+  - Light
+  - Item
   layers:
   - Default
   - TransparentFX

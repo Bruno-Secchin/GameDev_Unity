@@ -32,8 +32,8 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 4775684408357845809}
-    m_Position: {x: 310, y: 170, z: 0}
+    m_State: {fileID: 3561243001047124047}
+    m_Position: {x: 343.21042, y: 174.42204, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -43,15 +43,15 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 4775684408357845809}
---- !u!1102 &4775684408357845809
+  m_DefaultState: {fileID: 3561243001047124047}
+--- !u!1102 &3561243001047124047
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle
+  m_Name: HumanM@Fishing01 - Begin
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -64,9 +64,10 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 6a60ab2c96ae65b4aba824a16217ae84, type: 2}
+  m_Motion: {fileID: 3094330708855449807, guid: 9bb381d8c734acc4f9dd616db5757abd,
+    type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
-  m_TimeParameter: IdleTime
+  m_TimeParameter: 

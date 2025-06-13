@@ -128,6 +128,12 @@ public class L3GameManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             gameTime--;
             UpdateTimerUI();
+
+            if (!AreEnemiesAlive() && isGameActive)
+            {
+                EndLevel();
+                yield break; // Interrompe o timer se não houver inimigos
+            }
         }
 
         if (isGameActive && gameTime <= 0)
@@ -205,7 +211,7 @@ public class L3GameManager : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
-    
+
     public void AddScore(int points)
     {
         currentScore += points;
@@ -224,5 +230,11 @@ public class L3GameManager : MonoBehaviour
     {
         currentScore = 0;
         UpdateScoreUI();
+    }
+    
+    private bool AreEnemiesAlive()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+        return enemies.Length > 0;
     }
 }

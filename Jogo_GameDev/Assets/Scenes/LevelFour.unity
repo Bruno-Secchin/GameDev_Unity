@@ -2327,7 +2327,7 @@ MonoBehaviour:
     type: 3}
   castSound: {fileID: 8300000, guid: 7f5b1f76d0c380549a767231ee0f7db6, type: 3}
   biteSound: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
-  biteParticle: {fileID: 8297523431802887834, guid: 2d099e4ab31d8bd49a7364fd8690b2d3,
+  biteParticle: {fileID: 8765008237907035935, guid: ee1c36be32b35c844beaaec7378d2ac4,
     type: 3}
   victoryScreenPrefab: {fileID: 1003498218}
   victorySound: {fileID: 0}
@@ -4458,8 +4458,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 1.6612531
+  m_Center: {x: 1.1612531, y: 0, z: 0}
 --- !u!4 &1941350720
 Transform:
   m_ObjectHideFlags: 0
@@ -4469,7 +4469,7 @@ Transform:
   m_GameObject: {fileID: 1941350718}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.129, y: 5.184, z: -2.72}
+  m_LocalPosition: {x: -0.89, y: 4.58, z: 1.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

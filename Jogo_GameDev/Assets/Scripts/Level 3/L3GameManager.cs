@@ -8,6 +8,13 @@ public class L3GameManager : MonoBehaviour
 {
     [Header("Game State")]
     public bool isGameActive;
+    public L3PlayerController playerController;
+
+    [Header("Audio")]
+    private AudioSource gameAudio;
+    public AudioClip startSound;
+    public AudioClip overSound;
+    public AudioClip goodSound;
 
     [Header("UI Screens")]
     public GameObject titleScreen;
@@ -32,7 +39,7 @@ public class L3GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText; // Referência ao texto UI que mostra a pontuação
 
     [Header("Timer Settings")]
-    public float gameTime = 15f; // 15 segundos
+    public float gameTime; // 15 segundos
     public TextMeshProUGUI timerText; // Referência ao texto UI do timer
     private Coroutine timerCoroutine;
 
@@ -59,6 +66,7 @@ public class L3GameManager : MonoBehaviour
 
     void Start()
     {
+        gameAudio = GetComponent<AudioSource>();
         InitializeButtons();
         FindCamera();
         SetInitialGameState();
@@ -118,6 +126,7 @@ public class L3GameManager : MonoBehaviour
     {
         titleScreen.SetActive(false);
         isGameActive = true;
+        gameAudio.PlayOneShot(startSound, 1.0f);
         timerCoroutine = StartCoroutine(GameTimer());
     }
 
@@ -138,6 +147,7 @@ public class L3GameManager : MonoBehaviour
 
         if (isGameActive && gameTime <= 0)
         {
+            playerController.Death();
             StartCoroutine(GameOver());
         }
     }
@@ -153,15 +163,6 @@ public class L3GameManager : MonoBehaviour
     public IEnumerator GameOver()
     {
         isGameActive = false;
-
-        // Configura movimento da câmera
-        cameraPosition = new Vector3(
-            mainCamera.transform.position.x,
-            mainCamera.transform.position.y,
-            -10.5f
-        );
-        moveCamera = true;
-
         yield return new WaitForSeconds(1.0f);
         gameOverScreen.SetActive(true);
     }
@@ -169,6 +170,7 @@ public class L3GameManager : MonoBehaviour
     public void EndLevel()
     {
         isGameActive = false;
+        gameAudio.PlayOneShot(overSound, 1.0f);
         endLevelScreen.SetActive(true);
     }
 
@@ -216,6 +218,12 @@ public class L3GameManager : MonoBehaviour
     {
         currentScore += points;
         UpdateScoreUI();
+        gameAudio.PlayOneShot(goodSound, 1.0f);
+        if (currentScore == 600)
+        {
+            playerController.Stop();
+            EndLevel();
+        }
     }
 
     private void UpdateScoreUI()

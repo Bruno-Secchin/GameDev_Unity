@@ -10,12 +10,7 @@ public class EnemyCollisionHandler : MonoBehaviour
     public bool destroyOnCollision = true;
     public float spawnOffset = 0.5f;
     public int scoreValue = 100; // Pontos concedidos ao derrotar este inimigo
-
-    [Header("Efeitos")]
-    public ParticleSystem collisionEffect;
-    public AudioClip collisionSound;
     
-
     private void OnCollisionEnter(Collision collision)
     {
         // Verifica se colidiu com o objeto do jogador referenciado
@@ -46,7 +41,6 @@ public class EnemyCollisionHandler : MonoBehaviour
 
         Vector3 spawnPosition = transform.position + Vector3.up * spawnOffset;
         Instantiate(objectToSpawn, spawnPosition, transform.rotation);
-        PlayEffects();
 
         if (destroyOnCollision)
         {
@@ -57,21 +51,6 @@ public class EnemyCollisionHandler : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-
-    private void PlayEffects()
-    {
-        if (collisionEffect != null)
-        {
-            Instantiate(collisionEffect, transform.position, Quaternion.identity);
-        }
-
-        AudioSource audioSource = GetComponent<AudioSource>();
-        if (audioSource != null && collisionSound != null)
-        {
-            audioSource.PlayOneShot(collisionSound);
-        }
-    }
-
     private void AddScoreToPlayer()
     {
         if (L3GameManager.Instance != null)

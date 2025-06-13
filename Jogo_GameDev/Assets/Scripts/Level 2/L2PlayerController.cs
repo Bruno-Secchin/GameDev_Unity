@@ -88,7 +88,6 @@ public class L2PlayerController : MonoBehaviour
         else if (other.gameObject.CompareTag("Obstacle")) {
             playerAnim.SetBool("Death_b", true);
             StartCoroutine(gameManager.GameOver());
-            // playerAnim.SetInteger("DeathType_int", 1);
             playerAudio.PlayOneShot(deathSound, 1.0f);
         }
     }

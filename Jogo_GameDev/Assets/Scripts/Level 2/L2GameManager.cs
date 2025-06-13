@@ -12,6 +12,9 @@ public class L2GameManager : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject endLevelScreen;
     public GameObject timerText;
+    private AudioSource playerAudio;
+    public AudioClip startSound;
+    public AudioClip overSound;
     private L2GameManager gameManager;
     public Button prev_button;
     public Button start_button;
@@ -28,6 +31,7 @@ public class L2GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerAudio = GetComponent<AudioSource>();
         spawnposEco = new Vector3(0f, 4.1f, 75f);
         spawnposPipe = new Vector3(0f, 7.25f, 75f);
         prev_button.onClick.AddListener(PrevGame);
@@ -57,6 +61,7 @@ public class L2GameManager : MonoBehaviour
         titleScreen.gameObject.SetActive(false);
         isGameActive = true;
         timerText.gameObject.SetActive(true);
+        playerAudio.PlayOneShot(startSound, 1.0f);
         StartCoroutine(SpawnRandom());
     }
     public IEnumerator GameOver()
@@ -72,6 +77,7 @@ public class L2GameManager : MonoBehaviour
     {
         isGameActive = false;
         endLevelScreen.gameObject.SetActive(true);
+        playerAudio.PlayOneShot(overSound, 1.0f);
     }
     public void RestartGame()
     {

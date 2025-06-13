@@ -106,11 +106,11 @@ public class GameManager : MonoBehaviour
         else {
             score += scoreToAdd;
             streak += scoreToAdd;
-            if (score != 0 && score % 4 == 0){
+            if (score != 0 && score % 2 == 0){
                 count += 1;
                 robot.transform.Find("part" + count).gameObject.SetActive(true);
                 playerAudio.PlayOneShot(craftSound, 1.0f);
-                if (score == 56){
+                if (score == 28){
                     GameOver();
                 }
             }

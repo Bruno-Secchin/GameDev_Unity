@@ -18,16 +18,14 @@ public class L4GameManager : MonoBehaviour
     public Button restartButton;
     public Button restartGOButton;
     public Button nextButton;
-    private AudioSource playerAudio;
+    private AudioSource gameAudio;
     public AudioClip startSound;
     public AudioClip overSound;
-    private AudioSource gameAudio;
 
     [Header("Camera Settings")]
     public float cameraMoveSpeed = 5.0f;
     private GameObject mainCamera;
     private Vector3 cameraPosition;
-    private bool moveCamera = false;
 
     [Header("Fishing Settings")]
     public int piecesToFish = 3;
@@ -43,11 +41,6 @@ public class L4GameManager : MonoBehaviour
     private GameObject currentBobber;
     private bool canReel = false;
 
-    [Header("Victory Settings")]
-    public GameObject victoryScreenPrefab;
-    public AudioClip victorySound;
-
-    
     public TextMeshProUGUI resultText;
 
     private void Awake()
@@ -58,6 +51,7 @@ public class L4GameManager : MonoBehaviour
 
     void Start()
     {
+        gameAudio = GetComponent<AudioSource>();
         InitializeButtons();
         FindCamera();
         SetInitialGameState();
@@ -93,15 +87,18 @@ public class L4GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (isGameActive)
         {
-            if (!isFishing)
+            if (Input.GetMouseButtonDown(0))
             {
-                TryCastFishingRod();
-            }
-            else if (canReel)
-            {
-                StartFishingMinigame();
+                if (!isFishing)
+                {
+                    TryCastFishingRod();
+                }
+                else if (canReel)
+                {
+                    StartFishingMinigame();
+                }
             }
         }
     }
@@ -123,7 +120,7 @@ public class L4GameManager : MonoBehaviour
     private void StartFishing(Vector3 position)
     {
         isFishing = true;
-        currentBobber = Instantiate(bobberPrefab, position, Quaternion.identity);
+        currentBobber = Instantiate(bobberPrefab, position + new Vector3(0f, -0.4f, 0f), Quaternion.identity);
         AudioSource.PlayClipAtPoint(castSound, position);
 
         // Começa a esperar pela fisgada
@@ -139,7 +136,9 @@ public class L4GameManager : MonoBehaviour
         canReel = true;
         AudioSource.PlayClipAtPoint(biteSound, currentBobber.transform.position);
         biteParticle.transform.position = currentBobber.transform.position;
-        biteParticle.Play();
+        biteParticle.transform.rotation = currentBobber.transform.rotation;
+        Instantiate(biteParticle, biteParticle.transform.position, biteParticle.transform.rotation);
+        // biteParticle.Play();
     }
 
     private void StartFishingMinigame()

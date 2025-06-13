@@ -9,173 +9,171 @@ public class FishingMinigame : MonoBehaviour
     
     [Header("UI Elements")]
     public GameObject minigamePanel;
-    public RectTransform fishImage;
-    public RectTransform barImage;
-    public TMP_Text timerText;
-    public RectTransform gameArea;
+    public Image fishImage;
+    public Image barImage;
+    public RectTransform gameBackground;
     
     [Header("Game Settings")]
     public float gameDuration = 8f;
     public float requiredTime = 4f;
     public float fishMoveSpeed = 100f;
-    public float fishMoveRangeX = 300f;
-    public float fishMoveRangeY = 150f;
-    public float barSpeed = 500f;
+    public float fishMoveRange = 150f;
     
     private float successTime = 0f;
     private float currentTime = 0f;
     private Vector2 fishTargetPosition;
     private bool isMinigameActive = false;
-    private Vector2 barMovementInput;
-    private Rect gameAreaRect;
+    
+    [Header("Progress Bars")]
+    public Slider timeBar;
+    public Slider progressBar;
+    
+    [Header("Audio Feedback")]
+    public AudioClip successSound;
+    public AudioClip failureSound;
+    private AudioSource audioSource;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-        
+
         minigamePanel.SetActive(false);
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
     }
 
-    private void Start()
-    {
-        gameAreaRect = new Rect(
-            gameArea.rect.x + gameArea.anchoredPosition.x,
-            gameArea.rect.y + gameArea.anchoredPosition.y,
-            gameArea.rect.width,
-            gameArea.rect.height);
-    }
-    
     private void Update()
     {
         if (!isMinigameActive) return;
-        
-        HandleBarMovement();
-        UpdateFishMovement();
-        CheckOverlap();
-        UpdateTimer();
-    }
 
-    private void HandleBarMovement()
-    {
-        // Captura input (pode ser mouse ou teclado/controle)
-        barMovementInput = new Vector2(
-            Input.GetAxisRaw("Horizontal"),
-            Input.GetAxisRaw("Vertical"));
-        
-        // Move a barra
-        Vector2 newPosition = barImage.anchoredPosition + 
-                             barMovementInput * barSpeed * Time.deltaTime;
-        
-        // Limita a barra à área do jogo
-        float barHalfWidth = barImage.rect.width / 2;
-        float barHalfHeight = barImage.rect.height / 2;
-        
-        newPosition.x = Mathf.Clamp(
-            newPosition.x,
-            gameAreaRect.xMin + barHalfWidth,
-            gameAreaRect.xMax - barHalfWidth);
-            
-        newPosition.y = Mathf.Clamp(
-            newPosition.y,
-            gameAreaRect.yMin + barHalfHeight,
-            gameAreaRect.yMax - barHalfHeight);
-        
-        barImage.anchoredPosition = newPosition;
-    }
-
-    private void UpdateFishMovement()
-    {
-        // Movimento suave do peixe
-        fishImage.anchoredPosition = Vector2.Lerp(
-            fishImage.anchoredPosition, 
-            fishTargetPosition, 
+        // Movimento do peixe
+        fishImage.rectTransform.anchoredPosition = Vector2.Lerp(
+            fishImage.rectTransform.anchoredPosition,
+            fishTargetPosition,
             Time.deltaTime * 2f);
-            
-        if (Vector2.Distance(fishImage.anchoredPosition, fishTargetPosition) < 5f)
+
+        if (Vector2.Distance(fishImage.rectTransform.anchoredPosition, fishTargetPosition) < 5f)
         {
             SetNewFishTarget();
         }
-    }
 
-    private void SetNewFishTarget()
-    {
-        fishTargetPosition = new Vector2(
-            Random.Range(-fishMoveRangeX, fishMoveRangeX),
-            Random.Range(-fishMoveRangeY, fishMoveRangeY));
-        
-        // Garante que o peixe fique dentro da área
-        fishTargetPosition.x = Mathf.Clamp(
-            fishTargetPosition.x,
-            gameAreaRect.xMin + fishImage.rect.width/2,
-            gameAreaRect.xMax - fishImage.rect.width/2);
-            
-        fishTargetPosition.y = Mathf.Clamp(
-            fishTargetPosition.y,
-            gameAreaRect.yMin + fishImage.rect.height/2,
-            gameAreaRect.yMax - fishImage.rect.height/2);
-    }
+        // Controle da barra com limites
+        Vector2 mousePos = Input.mousePosition;
+        Vector2 canvasPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            minigamePanel.GetComponent<RectTransform>(),
+            mousePos,
+            null,
+            out canvasPos);
 
-    private void CheckOverlap()
-    {
+        // Obtém o retângulo da área de jogo
+        Rect gameArea = gameBackground.GetComponent<RectTransform>().rect;
+        Vector2 barSize = barImage.rectTransform.sizeDelta;
+
+        // Calcula os limites
+        float minX = gameArea.xMin + barSize.x / 2;
+        float maxX = gameArea.xMax - barSize.x / 2;
+        float minY = gameArea.yMin + barSize.y / 2;
+        float maxY = gameArea.yMax - barSize.y / 2;
+
+        // Aplica os limites
+        float clampedX = Mathf.Clamp(canvasPos.x, minX, maxX);
+        float clampedY = Mathf.Clamp(canvasPos.y, minY, maxY);
+
+        barImage.rectTransform.anchoredPosition = new Vector2(clampedX, clampedY);
+
+        // Verifica sobreposição
         Rect fishRect = new Rect(
-            fishImage.anchoredPosition.x - fishImage.rect.width/2,
-            fishImage.anchoredPosition.y - fishImage.rect.height/2,
-            fishImage.rect.width,
-            fishImage.rect.height);
-            
+            fishImage.rectTransform.anchoredPosition.x - fishImage.rectTransform.sizeDelta.x / 2,
+            fishImage.rectTransform.anchoredPosition.y - fishImage.rectTransform.sizeDelta.y / 2,
+            fishImage.rectTransform.sizeDelta.x,
+            fishImage.rectTransform.sizeDelta.y);
+
         Rect barRect = new Rect(
-            barImage.anchoredPosition.x - barImage.rect.width/2,
-            barImage.anchoredPosition.y - barImage.rect.height/2,
-            barImage.rect.width,
-            barImage.rect.height);
-            
+            barImage.rectTransform.anchoredPosition.x - barImage.rectTransform.sizeDelta.x / 2,
+            barImage.rectTransform.anchoredPosition.y - barImage.rectTransform.sizeDelta.y / 2,
+            barImage.rectTransform.sizeDelta.x,
+            barImage.rectTransform.sizeDelta.y);
+
         if (fishRect.Overlaps(barRect))
         {
             successTime += Time.deltaTime;
-            barImage.GetComponent<Image>().color = Color.green;
+            barImage.color = Color.green;
+
+            progressBar.value = successTime / requiredTime;
+
+            // Verifica vitória antecipada
+            if (progressBar.value >= 1f)
+            {
+                PlaySuccess();
+                EndMinigame(true);
+                return;
+            }
         }
         else
         {
-            barImage.GetComponent<Image>().color = Color.red;
+            barImage.color = Color.red;
         }
-    }
 
-    private void UpdateTimer()
-    {
-        currentTime += Time.deltaTime;
-        timerText.text = (gameDuration - currentTime).ToString("F1");
-        
-        if (currentTime >= gameDuration)
+        // Verifica derrota por tempo
+        if (timeBar.value <= 0f)
         {
-            EndMinigame();
+            PlayFailure();
+            EndMinigame(false);
+            return;
         }
+
+        // Atualiza as barras de progresso
+        currentTime += Time.deltaTime;
+        timeBar.value = 1 - (currentTime / gameDuration);
+
+        progressBar.value = successTime / requiredTime;
     }
     
+    private void PlaySuccess()
+    {
+        audioSource.PlayOneShot(successSound);
+    }
+
+    private void PlayFailure()
+    {
+        audioSource.PlayOneShot(failureSound);
+    }
+    private void SetNewFishTarget()
+    {
+        fishTargetPosition = new Vector2(
+            Random.Range(-fishMoveRange, fishMoveRange),
+            Random.Range(-fishMoveRange / 2, fishMoveRange / 2));
+    }
+
     public void StartMinigame()
     {
         minigamePanel.SetActive(true);
         successTime = 0f;
         currentTime = 0f;
         isMinigameActive = true;
-        
-        // Posições iniciais
-        barImage.anchoredPosition = Vector2.zero;
-        fishImage.anchoredPosition = Vector2.zero;
         SetNewFishTarget();
+        fishImage.rectTransform.anchoredPosition = Vector2.zero;
+        // Reseta as barras
+        timeBar.value = 1;
+        progressBar.value = 0;
     }
     
-    private void EndMinigame()
+    private void EndMinigame(bool wasSuccessful)
     {
         isMinigameActive = false;
         minigamePanel.SetActive(false);
-        
-        if (successTime >= requiredTime)
+
+        if (wasSuccessful)
         {
+            // Efeitos adicionais de sucesso
             FishingManager.Instance.OnFishingSuccess();
         }
         else
         {
+            // Efeitos adicionais de falha
             FishingManager.Instance.OnFishingFailure();
         }
     }

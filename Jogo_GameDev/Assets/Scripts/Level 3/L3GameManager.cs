@@ -122,13 +122,6 @@ public class L3GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
-    {
-        titleScreen.SetActive(false);
-        isGameActive = true;
-        gameAudio.PlayOneShot(startSound, 1.0f);
-        timerCoroutine = StartCoroutine(GameTimer());
-    }
 
     private IEnumerator GameTimer()
     {
@@ -166,6 +159,14 @@ public class L3GameManager : MonoBehaviour
         isGameActive = false;
         gameAudio.PlayOneShot(overSound, 1.0f);
         endLevelScreen.SetActive(true);
+    }
+    
+    public void StartGame()
+    {
+        titleScreen.SetActive(false);
+        isGameActive = true;
+        gameAudio.PlayOneShot(startSound, 1.0f);
+        timerCoroutine = StartCoroutine(GameTimer());
     }
 
     public void RestartGame()

@@ -6,32 +6,36 @@ using System.Collections;
 public class FishingMinigame : MonoBehaviour
 {
     public static FishingMinigame Instance;
-    
+
     [Header("UI Elements")]
     public GameObject minigamePanel;
     public Image fishImage;
     public Image barImage;
     public RectTransform gameBackground;
-    
+
     [Header("Game Settings")]
     public float gameDuration = 8f;
     public float requiredTime = 4f;
     public float fishMoveSpeed = 100f;
     public float fishMoveRange = 150f;
-    
+
     private float successTime = 0f;
     private float currentTime = 0f;
     private Vector2 fishTargetPosition;
     private bool isMinigameActive = false;
-    
+
     [Header("Progress Bars")]
     public Slider timeBar;
     public Slider progressBar;
-    
+
     [Header("Audio Feedback")]
     public AudioClip successSound;
     public AudioClip failureSound;
     private AudioSource audioSource;
+
+    [Header("Result Feedback")]
+    public TextMeshProUGUI resultText;
+    public float resultDisplayTime = 2f;
 
     private void Awake()
     {
@@ -131,7 +135,7 @@ public class FishingMinigame : MonoBehaviour
 
         progressBar.value = successTime / requiredTime;
     }
-    
+
     private void PlaySuccess()
     {
         audioSource.PlayOneShot(successSound);
@@ -160,21 +164,53 @@ public class FishingMinigame : MonoBehaviour
         timeBar.value = 1;
         progressBar.value = 0;
     }
-    
+
     private void EndMinigame(bool wasSuccessful)
     {
         isMinigameActive = false;
         minigamePanel.SetActive(false);
 
+        // Mostra o resultado
         if (wasSuccessful)
         {
-            // Efeitos adicionais de sucesso
-            FishingManager.Instance.OnFishingSuccess();
+            resultText.text = "SUCESSO!";
+            resultText.color = Color.green;
+            PlaySuccess();
         }
         else
         {
-            // Efeitos adicionais de falha
-            FishingManager.Instance.OnFishingFailure();
+            resultText.text = "FALHOU!";
+            resultText.color = Color.red;
+            PlayFailure();
+        }
+
+        // Ativa o texto e inicia a coroutine para escondê-lo
+        resultText.gameObject.SetActive(true);
+        StartCoroutine(HideResultAfterDelay());
+
+        // Chama o manager após um delay
+        StartCoroutine(DelayedCallback(wasSuccessful, resultDisplayTime));
+    }
+    
+    private IEnumerator HideResultAfterDelay()
+    {
+        yield return new WaitForSeconds(resultDisplayTime);
+        resultText.gameObject.SetActive(false);
+    }
+
+    private IEnumerator DelayedCallback(bool success, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        minigamePanel.SetActive(false);
+
+        if (success)
+        {
+            L4GameManager.Instance.OnFishingSuccess();
+        }
+        else
+        {
+            L4GameManager.Instance.OnFishingFailure();
         }
     }
 }
